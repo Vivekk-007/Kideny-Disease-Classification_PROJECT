@@ -22,7 +22,7 @@ AI-powered deep learning system for automated kidney disease classification from
 | Metric | Score |
 |--------|-------|
 | Training Accuracy | 94.49% |
-| Validation Accuracy | 100% |
+| Validation Accuracy | 92.87% |
 | Model Architecture | ResNet50 + Custom Head |
 | Input Size | 224x224x3 |
 | Classes | 4 |
@@ -220,7 +220,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Contact
 
-For questions or support, please contact: your.email@example.com
+For questions or support, please contact: kumarvivek05093896@gmail.com
 
 ## 🙏 Acknowledgments
 
@@ -232,7 +232,7 @@ For questions or support, please contact: your.email@example.com
 
 If you use this project in your research, please cite:
 ```bibtex
-@software{kidney_disease_classifier,
+{kidney_disease_classifier,
   title={Kidney Disease Classification System},
   author={vivek kumar},
   year={2025},
