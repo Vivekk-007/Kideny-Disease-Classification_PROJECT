@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Disease Classifier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .info-box {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-box p {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: #fafbff;
+        }
+        
+        .upload-area:hover {
+            background: #f0f4ff;
+            border-color: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .upload-area.dragover {
+            background: #e8efff;
+            border-color: #764ba2;
+        }
+        
+        .upload-area input[type="file"] {
+            display: none;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        .upload-subtext {
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .preview-container {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .clear-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+            border-radius: 15px;
+            display: none;
+            border: 2px solid #667eea;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .result-class {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .result-confidence {
+            font-size: 24px;
+            color: #764ba2;
+            font-weight: bold;
+        }
+        
+        .probabilities {
+            margin-top: 20px;
+        }
+        
+        .prob-header {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .prob-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .prob-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .prob-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .prob-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .prob-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+            display: none;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            background: linear-gradient(135deg, #fee 0%, #fdd 100%);
+            color: #c33;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            border: 2px solid #faa;
+            font-weight: 500;
+        }
+        
+        .success-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Kidney Disease Classifier</h1>
+        <p class="subtitle">AI-Powered CT Scan Analysis</p>
+        
+        <div class="info-box">
+            <p><strong>ℹ️ How to use:</strong> Upload a CT scan image of kidneys. The AI model will analyze it and classify the condition as Normal, Cyst, Stone, or Tumor with confidence scores.</p>
+        </div>
+        
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📁</div>
+            <p class="upload-text">Click to upload or drag and drop</p>
+            <p class="upload-subtext">Supported formats: JPG, JPEG, PNG (Max 16MB)</p>
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+        </div>
+        
+        <div class="preview-container" id="previewContainer">
+            <img id="preview" class="preview-image" alt="Preview">
+        </div>
+        
+        <div class="button-group">
+            <button id="predictBtn" onclick="predict()" disabled>
+                🔍 Analyze Image
+            </button>
+            <button class="clear-btn" id="clearBtn" onclick="clearAll()" disabled>
+                🗑️ Clear
+            </button>
+        </div>
+        
+        <div class="loader" id="loader"></div>
+        
+        <div class="result" id="result">
+            <div class="result-header">
+                <div>
+                    <div class="success-icon">✅</div>
+                    <div class="result-class" id="resultClass"></div>
+                </div>
+                <div class="result-confidence" id="resultConfidence"></div>
+            </div>
+            <div class="probabilities">
+                <div class="prob-header">Detailed Probabilities:</div>
+                <div id="probabilities"></div>
+            </div>
+        </div>
+        
+        <div class="error" id="error"></div>
+    </div>
+    
+    <script>
+        let selectedFile = null;
+        
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.add('dragover');
+            }, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.remove('dragover');
+            }, false);
+        });
+        
+        uploadArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                const file = files[0];
+                document.getElementById('fileInput').files = files;
+                handleFile(file);
+            }
+        }
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+        
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                displayError('Please select an image file');
+                return;
+            }
+            
+            selectedFile = file;
+            
+            // Preview image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                document.getElementById('previewContainer').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+            
+            // Enable buttons
+            document.getElementById('predictBtn').disabled = false;
+            document.getElementById('clearBtn').disabled = false;
+            
+            // Hide previous results
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+        
+        async function predict() {
+            if (!selectedFile) return;
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            
+            // Show loader
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('predictBtn').disabled = true;
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult(data);
+                } else {
+                    displayError(data.error || 'Prediction failed');
+                }
+            } catch (error) {
+                displayError('Network error: ' + error.message);
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+            }
+        }
+        
+        function displayResult(data) {
+            document.getElementById('resultClass').textContent = 
+                `Diagnosis: ${data.class}`;
+            document.getElementById('resultConfidence').textContent = 
+                `${(data.confidence * 100).toFixed(1)}%`;
+            
+            // Display all probabilities with bars
+            const probsHtml = Object.entries(data.all_probabilities)
+                .sort((a, b) => b[1] - a[1])
+                .map(([className, prob]) => {
+                    const percentage = (prob * 100).toFixed(1);
+                    return `
+                        <div class="prob-item">
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span class="prob-label">${className}</span>
+                                    <span class="prob-value">${percentage}%</span>
+                                </div>
+                                <div class="prob-bar">
+                                    <div class="prob-fill" style="width: ${percentage}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            
+            document.getElementById('probabilities').innerHTML = probsHtml;
+            document.getElementById('result').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function displayError(message) {
+            document.getElementById('error').textContent = '❌ ' + message;
+            document.getElementById('error').style.display = 'block';
+        }
+        
+        function clearAll() {
+            selectedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('preview').src = '';
+            document.getElementById('predictBtn').disabled = true;
+            document.getElementById('clearBtn').disabled = true;
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

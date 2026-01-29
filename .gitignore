@@ -1,0 +1,298 @@
+# Environment
+.env
+.env.local
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Models
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+*.h5
+*.keras
+
+# Logs
+logs/
+*.log
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Virtual Environment
+kidney/
+venv/
+env/
+
+
+## **27. .dockerignore**
+```
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+kidney/
+*.egg-info/
+.git
+.gitignore
+.vscode
+.idea
+*.log
+logs/
+uploads/*
+!uploads/.gitkeep
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+.DS_Store
+Thumbs.db
+```
+
+---
+
+## **28. .gitignore**
+```
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+kidney/
+ENV/
+
+# TensorFlow models
+*.h5
+*.keras
+*.pb
+
+# Artifacts
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+artifacts/training/*.h5
+artifacts/prepare_base_model/*.h5
+
+# Logs
+logs/
+*.log
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+kidney/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Project specific
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+*.h5
+*.keras
+
+# Logs
+logs/
+*.log
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Models (large files)
+artifacts/prepare_base_model/base_model.h5
+artifacts/prepare_base_model/updated_base_model.h5
+artifacts/training/model.h5
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Large data files
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+
+# Model files
+artifacts/prepare_base_model/*.h5
+artifacts/prepare_base_model/*.keras
+artifacts/training/*.h5
+artifacts/training/*.keras
+
+# All artifacts except configs
+artifacts/data_ingestion/*.zip
+artifacts/data_ingestion/CT-*
+
+# Logs
+logs/
+*.log
+
+# Virtual environment
+kidney/
+venv/
+env/
+
+# ==========================================
+# CRITICAL: Exclude ALL large files
+# ==========================================
+
+# Dataset - NEVER commit
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+artifacts/data_ingestion/*.zip
+
+# Models - NEVER commit
+artifacts/prepare_base_model/
+artifacts/training/
+*.h5
+*.keras
+
+# MLflow artifacts
+mlruns/
+mlartifacts/
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Virtual Environment
+kidney/
+venv/
+env/
+ENV/
+.venv
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+*~

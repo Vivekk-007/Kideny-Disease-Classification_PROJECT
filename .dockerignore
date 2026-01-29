@@ -1,0 +1,24 @@
+# **27. .dockerignore**
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+kidney/
+*.egg-info/
+.git
+.gitignore
+.vscode
+.idea
+*.log
+logs/
+uploads/*
+!uploads/.gitkeep
+artifacts/data_ingestion/data.zip
+artifacts/data_ingestion/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/
+.DS_Store
+Thumbs.db
+README.md
+*.md

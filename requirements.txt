@@ -1,0 +1,16 @@
+tensorflow
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+Pillow
+gdown
+PyYAML
+python-box
+Flask
+Flask-Cors
+Werkzeug
+mlflow
+dagshub
+python-dotenv
